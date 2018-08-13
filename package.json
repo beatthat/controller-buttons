@@ -1,7 +1,7 @@
 {
   "name": "controller-buttons",
   "scope": "beatthat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrap a button in a controller, usually as a way to more easily reuse a button prefab (view)",
   "main": "index.js",
   "scripts": {
