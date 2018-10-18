@@ -10,7 +10,9 @@ namespace BeatThat.Controllers.Buttons
 {
     public class ButtonView : View, IButtonView
 	{
-		
+        [Tooltip("when a caller attempts to set the interactble property and there is no Button or CanvasGroup, adds a CanvasGroup to control interability")]
+        public bool m_addCanvasGroupDynamicallyToSetInterable = true;
+
 		public UnityEvent onClicked { get { return this.hasClick != null ? this.hasClick.onClicked: null; } }
 
 		public void SetProperty<T> (string name, T value)
@@ -41,7 +43,37 @@ namespace BeatThat.Controllers.Buttons
 				return (b != null) ? m_hasClick = b.AddIfMissing<HasClick, ButtonClick> () : null;
 			}
 		}
-	}
+
+        public bool interactable 
+        {
+            get
+            {
+                var b = GetComponentInChildren<Button>();
+                if (b != null) {
+                    return b.interactable;
+                }
+                var cg = GetComponent<CanvasGroup>();
+                return cg != null ? cg.interactable : false;
+            }
+
+            set
+            {
+                var cg = GetComponent<CanvasGroup>();
+                if(cg != null) {
+                    cg.interactable = value;
+                    return;
+                }
+                var b = GetComponentInChildren<Button>();
+                if(b != null) {
+                    b.interactable = value;
+                    return;
+                }
+                if(m_addCanvasGroupDynamicallyToSetInterable) {
+                    this.gameObject.AddComponent<CanvasGroup>().interactable = value;
+                }
+            }
+        }
+    }
 }
 
 

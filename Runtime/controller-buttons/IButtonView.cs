@@ -6,6 +6,8 @@ namespace BeatThat.Controllers.Buttons
 	{
 		UnityEvent onClicked { get; }
 
+        bool interactable { get; set; }
+
 		void SetProperty<T>(string name, T value);
 	}
 }
